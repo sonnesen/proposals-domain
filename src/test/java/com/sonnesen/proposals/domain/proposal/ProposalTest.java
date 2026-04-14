@@ -26,12 +26,12 @@ class ProposalTest {
         @DisplayName("Should create proposal with valid data")
         void shouldCreateProposalWithValidData() {
             // Given
-            String customerName = "John Doe";
-            BigDecimal amount = new BigDecimal("10000.00");
-            Integer termInMonths = 12;
+            final var customerName = "John Doe";
+            final var amount = new BigDecimal("10000.00");
+            final var termInMonths = 12;
 
             // When
-            Proposal proposal = Proposal.newProposal(customerName, amount, termInMonths);
+            final var proposal = Proposal.newProposal(customerName, amount, termInMonths);
 
             // Then
             assertAll(
@@ -48,12 +48,12 @@ class ProposalTest {
         @DisplayName("Should throw exception when customer name is null")
         void shouldThrowExceptionWhenCustomerNameIsNull() {
             // Given
-            String customerName = null;
-            BigDecimal amount = new BigDecimal("10000.00");
-            Integer termInMonths = 12;
+            final String customerName = null;
+            final var amount = new BigDecimal("10000.00");
+            final var termInMonths = 12;
 
             // When & Then
-            IllegalArgumentException exception = assertThrows(
+            final var exception = assertThrows(
                     IllegalArgumentException.class,
                     () -> Proposal.newProposal(customerName, amount, termInMonths));
             assertEquals("Customer name must not be null or blank.", exception.getMessage());
@@ -63,12 +63,12 @@ class ProposalTest {
         @DisplayName("Should throw exception when customer name is blank")
         void shouldThrowExceptionWhenCustomerNameIsBlank() {
             // Given
-            String customerName = "   ";
-            BigDecimal amount = new BigDecimal("10000.00");
-            Integer termInMonths = 12;
+            final var customerName = "   ";
+            final var amount = new BigDecimal("10000.00");
+            final var termInMonths = 12;
 
             // When & Then
-            IllegalArgumentException exception = assertThrows(
+            final var exception = assertThrows(
                     IllegalArgumentException.class,
                     () -> Proposal.newProposal(customerName, amount, termInMonths));
             assertEquals("Customer name must not be null or blank.", exception.getMessage());
@@ -78,12 +78,12 @@ class ProposalTest {
         @DisplayName("Should throw exception when amount is null")
         void shouldThrowExceptionWhenAmountIsNull() {
             // Given
-            String customerName = "John Doe";
-            BigDecimal amount = null;
-            Integer termInMonths = 12;
+            final var customerName = "John Doe";
+            final BigDecimal amount = null;
+            final var termInMonths = 12;
 
             // When & Then
-            IllegalArgumentException exception = assertThrows(
+            final var exception = assertThrows(
                     IllegalArgumentException.class,
                     () -> Proposal.newProposal(customerName, amount, termInMonths));
             assertEquals("Amount must be greater than zero.", exception.getMessage());
@@ -93,12 +93,12 @@ class ProposalTest {
         @DisplayName("Should throw exception when amount is zero")
         void shouldThrowExceptionWhenAmountIsZero() {
             // Given
-            String customerName = "John Doe";
-            BigDecimal amount = BigDecimal.ZERO;
-            Integer termInMonths = 12;
+            final var customerName = "John Doe";
+            final var amount = BigDecimal.ZERO;
+            final var termInMonths = 12;
 
             // When & Then
-            IllegalArgumentException exception = assertThrows(
+            final var exception = assertThrows(
                     IllegalArgumentException.class,
                     () -> Proposal.newProposal(customerName, amount, termInMonths));
             assertEquals("Amount must be greater than zero.", exception.getMessage());
@@ -108,12 +108,12 @@ class ProposalTest {
         @DisplayName("Should throw exception when amount is negative")
         void shouldThrowExceptionWhenAmountIsNegative() {
             // Given
-            String customerName = "John Doe";
-            BigDecimal amount = new BigDecimal("-1000.00");
-            Integer termInMonths = 12;
+            final var customerName = "John Doe";
+            final var amount = new BigDecimal("-1000.00");
+            final var termInMonths = 12;
 
             // When & Then
-            IllegalArgumentException exception = assertThrows(
+            final var exception = assertThrows(
                     IllegalArgumentException.class,
                     () -> Proposal.newProposal(customerName, amount, termInMonths));
             assertEquals("Amount must be greater than zero.", exception.getMessage());
@@ -123,12 +123,12 @@ class ProposalTest {
         @DisplayName("Should throw exception when term is null")
         void shouldThrowExceptionWhenTermIsNull() {
             // Given
-            String customerName = "John Doe";
-            BigDecimal amount = new BigDecimal("10000.00");
-            Integer termInMonths = null;
+            final var customerName = "John Doe";
+            final var amount = new BigDecimal("10000.00");
+            final Integer termInMonths = null;
 
             // When & Then
-            IllegalArgumentException exception = assertThrows(
+            final var exception = assertThrows(
                     IllegalArgumentException.class,
                     () -> Proposal.newProposal(customerName, amount, termInMonths));
             assertEquals("Term in months must be greater than zero.", exception.getMessage());
@@ -138,12 +138,12 @@ class ProposalTest {
         @DisplayName("Should throw exception when term is zero")
         void shouldThrowExceptionWhenTermIsZero() {
             // Given
-            String customerName = "John Doe";
-            BigDecimal amount = new BigDecimal("10000.00");
-            Integer termInMonths = 0;
+            final var customerName = "John Doe";
+            final var amount = new BigDecimal("10000.00");
+            final var termInMonths = 0;
 
             // When & Then
-            IllegalArgumentException exception = assertThrows(
+            final var exception = assertThrows(
                     IllegalArgumentException.class,
                     () -> Proposal.newProposal(customerName, amount, termInMonths));
             assertEquals("Term in months must be greater than zero.", exception.getMessage());
@@ -153,16 +153,32 @@ class ProposalTest {
         @DisplayName("Should throw exception when term exceeds 60 months")
         void shouldThrowExceptionWhenTermExceeds60Months() {
             // Given
-            String customerName = "John Doe";
-            BigDecimal amount = new BigDecimal("10000.00");
-            Integer termInMonths = 61;
+            final var customerName = "John Doe";
+            final var amount = new BigDecimal("10000.00");
+            final var termInMonths = 61;
 
             // When & Then
-            IllegalArgumentException exception = assertThrows(
+            final var exception = assertThrows(
                     IllegalArgumentException.class,
                     () -> Proposal.newProposal(customerName, amount, termInMonths));
             assertEquals("Term in months must not exceed 60 months.", exception.getMessage());
         }
+    }
+
+    @Test
+    void shouldThrowExceptionWhenStatusIsNull() {
+        // Given
+        final var customerName = "John Doe";
+        final var amount = new BigDecimal("10000.00");
+        final var termInMonths = 12;
+        final ProposalStatus status = null;
+        final var now = Instant.now();
+
+        // When & Then
+        final var exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> Proposal.with(1L, customerName, amount, termInMonths, status, now, now));
+        assertEquals("Status must not be null.", exception.getMessage());
     }
 
     @Nested
@@ -173,11 +189,11 @@ class ProposalTest {
         @DisplayName("Should approve proposal when status is IN_PROGRESS")
         void shouldApproveProposalWhenStatusIsInProgress() {
             // Given
-            Proposal proposal = Proposal.newProposal("John Doe", new BigDecimal("10000.00"), 12);
-            Instant originalUpdatedAt = proposal.getUpdatedAt();
+            final var proposal = Proposal.newProposal("John Doe", new BigDecimal("10000.00"), 12);
+            final var originalUpdatedAt = proposal.getUpdatedAt();
 
             // When
-            Proposal approvedProposal = proposal.approve();
+            final var approvedProposal = proposal.approve();
 
             // Then
             assertAll(
@@ -189,11 +205,11 @@ class ProposalTest {
         @DisplayName("Should throw exception when trying to approve non-IN_PROGRESS proposal")
         void shouldThrowExceptionWhenTryingToApproveNonInProgressProposal() {
             // Given
-            Proposal proposal = Proposal.with(1L, "John Doe", new BigDecimal("10000.00"),
+            final var proposal = Proposal.with(1L, "John Doe", new BigDecimal("10000.00"),
                     12, ProposalStatus.APPROVED, Instant.now(), Instant.now());
 
             // When & Then
-            IllegalProposalStateException exception = assertThrows(
+            final var exception = assertThrows(
                     IllegalProposalStateException.class,
                     () -> proposal.approve());
             assertEquals("Only proposals in progress can be approved.", exception.getMessage());
@@ -208,11 +224,11 @@ class ProposalTest {
         @DisplayName("Should reject proposal when status is IN_PROGRESS")
         void shouldRejectProposalWhenStatusIsInProgress() {
             // Given
-            Proposal proposal = Proposal.newProposal("John Doe", new BigDecimal("10000.00"), 12);
-            Instant originalUpdatedAt = proposal.getUpdatedAt();
+            final var proposal = Proposal.newProposal("John Doe", new BigDecimal("10000.00"), 12);
+            final var originalUpdatedAt = proposal.getUpdatedAt();
 
             // When
-            Proposal rejectedProposal = proposal.reject();
+            final var rejectedProposal = proposal.reject();
 
             // Then
             assertAll(
@@ -224,11 +240,11 @@ class ProposalTest {
         @DisplayName("Should throw exception when trying to reject non-IN_PROGRESS proposal")
         void shouldThrowExceptionWhenTryingToRejectNonInProgressProposal() {
             // Given
-            Proposal proposal = Proposal.with(1L, "John Doe", new BigDecimal("10000.00"),
+            final var proposal = Proposal.with(1L, "John Doe", new BigDecimal("10000.00"),
                     12, ProposalStatus.REJECTED, Instant.now(), Instant.now());
 
             // When & Then
-            IllegalProposalStateException exception = assertThrows(
+            final var exception = assertThrows(
                     IllegalProposalStateException.class,
                     () -> proposal.reject());
             assertEquals("Only proposals in progress can be rejected.", exception.getMessage());
@@ -243,11 +259,11 @@ class ProposalTest {
         @DisplayName("Should cancel proposal when status is IN_PROGRESS")
         void shouldCancelProposalWhenStatusIsInProgress() {
             // Given
-            Proposal proposal = Proposal.newProposal("John Doe", new BigDecimal("10000.00"), 12);
-            Instant originalUpdatedAt = proposal.getUpdatedAt();
+            final var proposal = Proposal.newProposal("John Doe", new BigDecimal("10000.00"), 12);
+            final var originalUpdatedAt = proposal.getUpdatedAt();
 
             // When
-            Proposal cancelledProposal = proposal.cancel();
+            final var cancelledProposal = proposal.cancel();
 
             // Then
             assertAll(
@@ -259,11 +275,11 @@ class ProposalTest {
         @DisplayName("Should throw exception when trying to cancel non-IN_PROGRESS proposal")
         void shouldThrowExceptionWhenTryingToCancelNonInProgressProposal() {
             // Given
-            Proposal proposal = Proposal.with(1L, "John Doe", new BigDecimal("10000.00"),
+            final var proposal = Proposal.with(1L, "John Doe", new BigDecimal("10000.00"),
                     12, ProposalStatus.CANCELLED, Instant.now(), Instant.now());
 
             // When & Then
-            IllegalProposalStateException exception = assertThrows(
+            final var exception = assertThrows(
                     IllegalProposalStateException.class,
                     () -> proposal.cancel());
             assertEquals("Only proposals in progress can be cancelled.", exception.getMessage());
@@ -278,14 +294,14 @@ class ProposalTest {
         @DisplayName("Should update proposal when status is IN_PROGRESS")
         void shouldUpdateProposalWhenStatusIsInProgress() {
             // Given
-            Proposal proposal = Proposal.newProposal("John Doe", new BigDecimal("10000.00"), 12);
-            String newCustomerName = "Jane Smith";
-            BigDecimal newAmount = new BigDecimal("15000.00");
-            Integer newTermInMonths = 24;
-            Instant originalUpdatedAt = proposal.getUpdatedAt();
+            final var proposal = Proposal.newProposal("John Doe", new BigDecimal("10000.00"), 12);
+            final var newCustomerName = "Jane Smith";
+            final var newAmount = new BigDecimal("15000.00");
+            final var newTermInMonths = 24;
+            final var originalUpdatedAt = proposal.getUpdatedAt();
 
             // When
-            Proposal updatedProposal = proposal.update(newCustomerName, newAmount, newTermInMonths);
+            final var updatedProposal = proposal.update(newCustomerName, newAmount, newTermInMonths);
 
             // Then
             assertAll(
@@ -300,13 +316,14 @@ class ProposalTest {
         @DisplayName("Should throw exception when trying to update non-IN_PROGRESS proposal")
         void shouldThrowExceptionWhenTryingToUpdateNonInProgressProposal() {
             // Given
-            Proposal proposal = Proposal.with(1L, "John Doe", new BigDecimal("10000.00"),
+            final var proposal = Proposal.with(1L, "John Doe", new BigDecimal("10000.00"),
                     12, ProposalStatus.APPROVED, Instant.now(), Instant.now());
+            final var amount = new BigDecimal("15000.00");
 
             // When & Then
-            IllegalProposalStateException exception = assertThrows(
+            final var exception = assertThrows(
                     IllegalProposalStateException.class,
-                    () -> proposal.update("Jane Smith", new BigDecimal("15000.00"), 24));
+                    () -> proposal.update("Jane Smith", amount, 24));
             assertEquals("Only proposals in progress can be updated.", exception.getMessage());
         }
 
@@ -314,12 +331,15 @@ class ProposalTest {
         @DisplayName("Should validate updated data")
         void shouldValidateUpdatedData() {
             // Given
-            Proposal proposal = Proposal.newProposal("John Doe", new BigDecimal("10000.00"), 12);
+            final var proposal = Proposal.newProposal("John Doe", new BigDecimal("10000.00"), 12);
+            final var amount = new BigDecimal("15000.00");
 
             // When & Then
-            IllegalArgumentException exception = assertThrows(
+            final var exception = assertThrows(
                     IllegalArgumentException.class,
-                    () -> proposal.update("", new BigDecimal("15000.00"), 24));
+                    () -> {
+                        proposal.update("", amount, 24);
+                    });
             assertEquals("Customer name must not be null or blank.", exception.getMessage());
         }
     }
@@ -332,16 +352,16 @@ class ProposalTest {
         @DisplayName("Should create proposal with all data including ID")
         void shouldCreateProposalWithAllDataIncludingId() {
             // Given
-            Long id = 1L;
-            String customerName = "John Doe";
-            BigDecimal amount = new BigDecimal("10000.00");
-            Integer termInMonths = 12;
-            ProposalStatus status = ProposalStatus.APPROVED;
-            Instant createdAt = Instant.now().minusSeconds(3600);
-            Instant updatedAt = Instant.now();
+            final var id = 1L;
+            final var customerName = "John Doe";
+            final var amount = new BigDecimal("10000.00");
+            final var termInMonths = 12;
+            final var status = ProposalStatus.APPROVED;
+            final var createdAt = Instant.now().minusSeconds(3600);
+            final var updatedAt = Instant.now();
 
             // When
-            Proposal proposal = Proposal.with(id, customerName, amount, termInMonths,
+            final var proposal = Proposal.with(id, customerName, amount, termInMonths,
                     status, createdAt, updatedAt);
 
             // Then
